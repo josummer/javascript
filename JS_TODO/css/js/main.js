@@ -4,7 +4,9 @@ const list = document.querySelector(".list");
 const likeButtons = document.querySelectorAll(".like");
 
 function addItem(){
-    if(inputText.value ==="") return;
+
+    //trim _ 공백을 모두 제거한 값
+    if(inputText.value.trim() === "") return;
 
     //like
     const like = document.createElement("span");
@@ -35,25 +37,38 @@ function addItem(){
     const li = document.createElement("li");
 
     //event
-    like.addEventListener("click", ()=>{
-    console.log("hello");
-})
+    like.addEventListener("click", (e)=>{
+        console.log(e);
+        const target = e.target;
+        const text = target.innerText === "favorite" ? "favorite_border" : "favorite";
+        target.innerText = text;
+    })
 
-li.appendChild(like);
-li.appendChild(item);
-li.appendChild(manage);
-list.appendChild(li);
+    checkIcon.addEventListener("click", (e)=>{
+        const target = e.target.parentNode.parentNode;
+        target.classList.add("done");
+    })
 
-inputText.value = "";
+    clearIcon.addEventListener("click", (e)=>{
+        const target = e.target.parentNode.parentNode;
+        list.removeChild(target);
+    })
+
+    li.appendChild(like);
+    li.appendChild(item);
+    li.appendChild(manage);
+    list.appendChild(li);
+
+    inputText.value = "";
+    inputText.focus();
 }
 
 
 inputText.addEventListener("keypress", e=>{
-    if(e.keycode == 13){
+    if(e.keyCode === 13){
         addItem()
     }
 })
-
 
 //addButton.addEventListener(행동, 함수)
 addButton.addEventListener("click", addItem);
